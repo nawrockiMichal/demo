@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en-GB" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head th:include="fragments/head"></head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <nav th:include="fragments/menu"></nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Create feedback</h1>
+            </div>
+            <form action="#" th:action="@{/index.html}" th:object="${message}" method="post">
+
+                <div class="form-group">
+                    <label>Name:</label>
+                    <input type="text" class="form-control" th:field="*{name}">
+                    <small class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                        Example
+                    </small>
+
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" class="form-control" th:field="*{email}">
+                    <small class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                        Example
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label>Contact type:</label>
+                    <select class="form-control" th:field="*{type}">
+                        <option value=""></option>
+                        <option th:each="type : ${T(nawrocki.demo.model.ContactType).values()}"
+                                th:value="${type}"
+                                th:text="${type}">
+                        </option>
+                    </select>
+                    <small class="text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">
+                        Example
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label>Message:</label>
+                    <textarea class="form-control" rows="3" th:field="*{content}"></textarea>
+                    <small class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">
+                        Example
+                    </small>
+                </div>
+
+                <button type="submit" class="btn btn-success ">Submit</button>
+
+            </form>
+
+        </main>
+    </div>
+</div>
+
+<div th:replace="fragments/footer"></div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en-GB" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head th:include="fragments/head"></head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <nav th:include="fragments/menu"></nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Available feedback</h1>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Date of submission</th>
+                        <th>Name</th>
+                        <th>Email address</th>
+                        <th>Contact type</th>
+                        <th>Message</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <select class="form-control" id="date">
+                                <option value=""></option>
+                                <option value="ASC" th:selected='${selectedSortOrder=="ASC"}'>ASC</option>
+                                <option value="DESC" th:selected='${selectedSortOrder=="DESC"}'>DESC</option>
+                            </select>
+
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th>
+                            <select class="form-control" id="type">
+                                <option value="">*</option>
+                                <option th:each="type : ${T(nawrocki.demo.model.ContactType).values()}"
+                                        th:value="${type}"
+                                        th:text="${type}" th:selected="${selectedType==type}">
+                                </option>
+                            </select>
+
+                        </th>
+                        <th>Message</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="message : ${messages}">
+                        <td><span th:text="${message.id}"> Id </span></td>
+                        <td><span th:text="${#dates.format(message.date, 'dd/MM/yyyy HH:mm')}"> Date </span></td>
+                        <td><span th:text="${message.name}"> Name </span></td>
+                        <td><span th:text="${message.email}"> Email </span></td>
+                        <td><span th:text="${message.type}"> Type </span></td>
+                        <td><span th:text="${message.content}"> Message </span></td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+<div th:replace="fragments/footer"></div>
+<script th:inline="javascript">
+    var sortOrder = [[${selectedSortOrder}]];
+    var type = [[${selectedType}]];
+    document.getElementById('date').onchange = function () {
+        window.location = "list.html?sort=date," + this.value + (type != null ? "&type=" + type : "");
+    };
+    document.getElementById('type').onchange = function () {
+        window.location = "list.html?type=" + this.value + (sortOrder != null ? "&sort=date," + sortOrder : "");
+    };
+
+</script>
+</body>
+</html>
